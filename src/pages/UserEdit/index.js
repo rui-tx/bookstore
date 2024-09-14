@@ -45,9 +45,8 @@ const UserEdit = ({ user, onSave, onCancel }) => {
               required
             />
           </div>
-
           <div className="form-group">
-            <label htmlFor="email">Profile Picture URL</label>
+            <label htmlFor="profile_picture">Profile Picture URL</label>
             <Input
               type="text"
               id="profile_picture"
@@ -55,6 +54,15 @@ const UserEdit = ({ user, onSave, onCancel }) => {
               onChange={(e) => setProfilePicture(e.target.value)}
               required
             />
+            {profilePicture && (
+              <Block blk="block-embossed-center">
+                <img
+                  style={{ width: "50%" }}
+                  src={profilePicture}
+                  alt="Preview of the profile picture"
+                />
+              </Block>
+            )}
           </div>
 
           <div className="button-group">
