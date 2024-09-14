@@ -11,6 +11,9 @@ import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
 
 import MockBooksContext from "./Contexts/MockBooksContext";
 import BooksProvider from "./Contexts/BooksProvider";
@@ -36,6 +39,9 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/logout" element={<Logout />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
                   <Route path="/not-found" element={<NotFound />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
