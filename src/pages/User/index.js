@@ -20,11 +20,8 @@ const User = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("User:", user);
-    console.log("Books:", books);
     const userBooks = books.filter((b) => b.user.id === user.id);
     setUserBooks(userBooks);
-    console.log("User books:", userBooks);
   }, []);
 
   const handleSave = async (updatedUser) => {

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
@@ -22,6 +22,12 @@ const Books = () => {
   const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
   const { addToast } = useContext(ToastContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // reload books on page load
+    const trigger = reloadTrigger + 1;
+    setReloadTrigger(trigger);
+  }, []);
 
   const handleInsert = async (newBook) => {
     console.log("Inserting new book:", newBook);

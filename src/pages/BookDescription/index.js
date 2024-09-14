@@ -1,23 +1,37 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
+import Button from "../../components/Button";
 import Modal from "../../Layout/Modal";
+import BooksUpdate from "../BooksUpdate";
 import "./styles.css";
 
 //import MockBooksContext from "../../Contexts/MockBooksContext";
+import AuthContext from "../../Contexts/AuthContext";
 import BooksContext from "../../Contexts/BooksContext";
+import ToastContext from "../../Contexts/ToastContext";
 
 const BookDescription = () => {
   //const { mockBooks } = useContext(MockBooksContext);
-
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isViewing, setIsViewing] = useState(false);
-  const { books } = useContext(BooksContext);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
+    useContext(AuthContext);
+  const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
+  const { addToast } = useContext(ToastContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
+    // TODO change this abomination. it will try to reload the books every time the page loads
+    // Maybe save the books in localStorage and reload them on page load.
+    if (books === null || books === undefined || books.length === 0) {
+      const trigger = reloadTrigger + 1;
+      setReloadTrigger(trigger);
+      return;
+    }
     const foundBook = books.find((b) => b.id === parseInt(id));
 
     if (!foundBook) {
@@ -31,7 +45,7 @@ const BookDescription = () => {
 
     setBook(foundBook || null);
     setLoading(false);
-  }, [id]);
+  }, [id, reloadTrigger]);
 
   if (loading) {
     return (
@@ -44,7 +58,7 @@ const BookDescription = () => {
   if (!book) {
     return (
       <Block>
-        <div>Book not found</div>
+        <div>Book not found. Please go back and try again.</div>
       </Block>
     );
   }
@@ -74,8 +88,90 @@ const BookDescription = () => {
     );
   }
 
+  const handleCancel = () => {
+    setIsUpdating(false);
+  };
+
+  const handleUpdate = async (newBook) => {
+    if (!(await validateToken(user.token))) {
+      addToast("Session expired, please login again", "toast-error");
+      setLoggedIn(false);
+      setUser(null);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("isLoggedIn");
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", user.token);
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      title: newBook.title,
+      description: newBook.description,
+      year: parseInt(newBook.year),
+      book_cover: newBook.book_cover,
+    });
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`/api/v1/book/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          if (Array.isArray(data.errors)) {
+            data.errors.forEach((error) => {
+              addToast(`Update book failed: ${error}`, "toast-error");
+              console.error("Update book error: ", error);
+            });
+            return;
+          }
+          addToast("Update book failed", "toast-error");
+          console.error("Update book error: ", data.errors);
+        } else {
+          const trigger = reloadTrigger + 1;
+          setReloadTrigger(trigger);
+          book.title = newBook.title;
+          book.description = newBook.description;
+          book.year = newBook.year;
+          book.book_cover = newBook.book_cover;
+
+          addToast("Updated book successfully 👍", "toast-success");
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        addToast("An error occurred updating the book", "toast-error");
+      });
+
+    setIsUpdating(false);
+  };
+
+  if (isUpdating) {
+    return (
+      <BooksUpdate
+        book={book}
+        onUpdate={handleUpdate}
+        onCancel={handleCancel}
+      />
+    );
+  }
+
   return (
     <Block>
+      {isLoggedIn && user.id === book.user.id && (
+        <Block blk="block-embossed">
+          <Button onClick={() => setIsUpdating(true)}> Update Book </Button>
+          <Button btn="cancel"> Delete Book </Button>
+        </Block>
+      )}
       <div className="product-page">
         <div className="product-container">
           <div className="product-image" onClick={() => handleImageModal()}>

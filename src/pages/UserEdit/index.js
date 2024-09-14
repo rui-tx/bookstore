@@ -70,17 +70,3 @@ const UserEdit = ({ user, onSave, onCancel }) => {
 };
 
 export default UserEdit;
-
-{
-  /* <div className="form-group">
-<label htmlFor="favoriteGenres">
-  Favorite Genres (comma-separated):
-</label>
-<Input
-  type="text"
-  id="favoriteGenres"
-  value={favoriteGenres}
-  onChange={(e) => setFavoriteGenres(e.target.value)}
-/>
-</div> */
-}
