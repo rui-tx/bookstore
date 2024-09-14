@@ -2,18 +2,30 @@ import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
+import BookList from "../../components/BookList";
 import UserEdit from "../UserEdit";
 import "./styles.css";
 
 import AuthContext from "../../Contexts/AuthContext";
+import BooksContext from "../../Contexts/BooksContext";
 import ToastContext from "../../Contexts/ToastContext";
 
 const User = () => {
+  const [userBooks, setUserBooks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
     useContext(AuthContext);
+  const { books } = useContext(BooksContext);
   const { addToast } = useContext(ToastContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("User:", user);
+    console.log("Books:", books);
+    const userBooks = books.filter((b) => b.user.id === user.id);
+    setUserBooks(userBooks);
+    console.log("User books:", userBooks);
+  }, []);
 
   const handleSave = async (updatedUser) => {
     if (!(await validateToken(user.token))) {
@@ -115,6 +127,9 @@ const User = () => {
           />
           <div className="user-info">
             <p>
+              <strong>Id:</strong> {user.id}
+            </p>
+            <p>
               <strong>Name:</strong> {user.name}
             </p>
             <p>
@@ -125,6 +140,15 @@ const User = () => {
         </div>
         <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
       </div>
+      <Block blk="block-embossed">
+        <div className="user-books">
+          <h2>Your Books</h2>
+          {userBooks.length === 0 && (
+            <p>You haven't added any books yet. Go and add some! 🙂</p>
+          )}
+          <BookList books={userBooks} columns={3} />
+        </div>
+      </Block>
     </Block>
   );
 };
