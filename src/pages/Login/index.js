@@ -104,9 +104,11 @@ function Login() {
               required
             />
           </div>
-          <Button btn="success" type="submit">
-            Login
-          </Button>
+          <div className="button-group">
+            <Button btn="success" type="submit">
+              Login
+            </Button>
+          </div>
         </form>
         <p>
           Don't have an account? <Link to="/register">Register here</Link>{" "}

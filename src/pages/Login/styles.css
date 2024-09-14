@@ -34,6 +34,12 @@
   text-align: center;
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @media (max-width: 575px) {
   .login {
     max-width: 70%;

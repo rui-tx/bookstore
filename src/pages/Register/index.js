@@ -106,16 +106,11 @@ function Register() {
             </div>
             <h2>BookStore</h2>
             <ul>
+              <li>Browse our collection of books across various genres.</li>
+              <li>Create new books that everyone can see.</li>
               <li>
-                Browse our extensive collection of books across various genres.
-              </li>
-              <li>
-                Create your personal reading list and track your reading
-                progress.
-              </li>
-              <li>
-                Enjoy personalized book recommendations based on your
-                preferences.
+                And remember, if you break it, <strike>you buy it</strike> we
+                fix it.
               </li>
             </ul>
           </Block>
@@ -146,9 +141,11 @@ function Register() {
                 required
               />
             </div>
-            <Button type="submit" btn="success">
-              Register
-            </Button>
+            <div className="button-group">
+              <Button type="submit" btn="success">
+                Register
+              </Button>
+            </div>
           </form>
           <p>
             Already have an account? <Link to="/login">Login here</Link>

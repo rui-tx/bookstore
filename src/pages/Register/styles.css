@@ -53,7 +53,13 @@
   text-align: center;
 }
 
-@media (max-width: 767px) {
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+@media (max-width: 1024px) {
   .register-container {
     flex-direction: column;
     max-width: 90%;
