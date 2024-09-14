@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Modal from "../../Layout/Modal";
 import "./styles.css";
@@ -9,14 +9,21 @@ import BooksContext from "../../Contexts/BooksContext";
 
 const BookDescription = () => {
   //const { mockBooks } = useContext(MockBooksContext);
-  const { books } = useContext(BooksContext);
-  const { id } = useParams();
+
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isViewing, setIsViewing] = useState(false);
+  const { books } = useContext(BooksContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const foundBook = books.find((b) => b.id === parseInt(id));
+
+    if (!foundBook) {
+      navigate("/not-found", { replace: true });
+      return;
+    }
 
     if (foundBook.book_cover === undefined || foundBook.book_cover === null) {
       foundBook.book_cover = "https://placehold.co/400x600?text=Not+Available";
