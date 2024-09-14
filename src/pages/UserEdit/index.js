@@ -24,7 +24,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
         <h2>Edit Profile</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">Name</label>
             <Input
               type="text"
               id="name"
@@ -34,7 +34,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="email">Email</label>
             <Input
               type="email"
               id="email"

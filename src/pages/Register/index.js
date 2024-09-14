@@ -1,5 +1,5 @@
 // src/components/Pages/Login/index.js
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
@@ -9,12 +9,32 @@ import "./styles.css";
 import AuthContext from "../../Contexts/AuthContext";
 import ToastContext from "../../Contexts/ToastContext";
 
+const getEmailUsername = (email) => {
+  if (!email || typeof email !== "string") {
+    return "";
+  }
+
+  const atIndex = email.indexOf("@");
+  if (atIndex === -1) {
+    return email;
+  }
+
+  return email.slice(0, atIndex);
+};
+
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn, setUser } = useContext(AuthContext);
+  const { isLoggedIn, setLoggedIn, setUser } = useContext(AuthContext);
   const { addToast } = useContext(ToastContext);
   const navigate = useNavigate();
+
+  // redirect to user page if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/profile", { replace: true });
+    }
+  }, [isLoggedIn]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +46,7 @@ function Register() {
     const raw = JSON.stringify({
       email: email,
       password: password,
-      name: "Default User",
+      name: getEmailUsername(email),
     });
 
     const requestOptions = {
@@ -50,8 +70,19 @@ function Register() {
           addToast("Registration failed", "toast-error");
           console.error("Registration error: ", data.errors);
         } else {
+          // logins the user after registration
+          setLoggedIn(true);
+          setUser({
+            id: data.data.id,
+            name: data.data.name,
+            email: data.data.email,
+            profile_picture: data.data.profile_picture,
+          });
+
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("user", JSON.stringify(data.data));
+
           addToast("Registration successful", "toast-success");
-          navigate("/", { replace: true });
         }
       })
       .catch((error) => {

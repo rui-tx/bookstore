@@ -7,6 +7,7 @@ import "./styles.css";
 
 import AuthContext from "../../Contexts/AuthContext";
 import ToastContext from "../../Contexts/ToastContext";
+import { toBeEmpty } from "@testing-library/jest-dom/dist/matchers";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function Login() {
   // redirect to user page if already logged in
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/user", { replace: true });
+      navigate("/profile", { replace: true });
     }
   }, [isLoggedIn]);
 
@@ -59,6 +60,7 @@ function Login() {
           name: data.data.name,
           email: data.data.email,
           profile_picture: data.data.profile_picture,
+          token: data.data.token,
         });
 
         localStorage.setItem("isLoggedIn", true);

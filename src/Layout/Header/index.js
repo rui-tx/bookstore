@@ -17,8 +17,8 @@ function Header() {
           </Link>
         </div>
         <nav className="nav-links">
-          {isLoggedIn && <Link to="/user">User</Link>}
           <Link to="/books">Books</Link>
+          {isLoggedIn && <Link to="/profile">User Profile</Link>}
           {isLoggedIn ? (
             <Link to="/logout">Logout</Link>
           ) : (
