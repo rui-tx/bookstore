@@ -1,6 +1,13 @@
-# Getting Started with Create React App
+# Getting Started with BookStore
+
+This is a simple React App. It has a connection to a book API. It allows for the typical CRUD application, like user creation or book editing.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Live Preview
+Use the link in the project description.
+> Because the underling API uses `HTTP`, a setting change is needed on the browser. For example, on `Chrome`, go to `Site Settings` and change the `Insecure content`setting to `Allow`
+
 
 ## Available Scripts
 
