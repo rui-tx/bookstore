@@ -6,14 +6,14 @@ import "./styles.css";
 
 const BooksInsert = ({ onInsert, onCancel }) => {
   const [title, setTitle] = useState(null);
-  const [author, setAuthor] = useState(null);
+  const [description, setDescription] = useState(null);
   const [year, setYear] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newBook = {
       title,
-      author,
+      description,
       year,
     };
     onInsert(newBook);
@@ -36,12 +36,12 @@ const BooksInsert = ({ onInsert, onCancel }) => {
               />
             </div>
             <div className="book-insert-form-group">
-              <label htmlFor="author">Author</label>
+              <label htmlFor="author">Description</label>
               <Input
                 type="text"
-                id="author"
-                placeholder="Author of the book..."
-                onChange={(e) => setAuthor(e.target.value)}
+                id="description"
+                placeholder="Description of the book..."
+                onChange={(e) => setDescription(e.target.value)}
                 required
               />
             </div>

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
@@ -8,21 +9,76 @@ import BooksInsert from "../BooksInsert";
 import "./styles.css";
 
 //import MockBooksContext from "../../Contexts/MockBooksContext";
-import BooksContext from "../../Contexts/BooksContext";
+
 import AuthContext from "../../Contexts/AuthContext";
+import BooksContext from "../../Contexts/BooksContext";
+import ToastContext from "../../Contexts/ToastContext";
 
 const Books = () => {
   //const { mockBooks } = useContext(MockBooksContext);
-  const { books } = useContext(BooksContext);
-  const { isLoggedIn } = useContext(AuthContext);
   const [isInserting, setIsInserting] = useState(false);
+  const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
+    useContext(AuthContext);
+  const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
+  const { addToast } = useContext(ToastContext);
+  const navigate = useNavigate();
 
-  const handleInsert = (newBook) => {
+  const handleInsert = async (newBook) => {
     console.log("Inserting new book:", newBook);
+
+    if (!(await validateToken(user.token))) {
+      addToast("Session expired, please login again", "toast-error");
+      setLoggedIn(false);
+      setUser(null);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("isLoggedIn");
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", user.token);
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      title: newBook.title,
+      description: newBook.description,
+      year: parseInt(newBook.year),
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("/api/v1/book/", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          if (Array.isArray(data.errors)) {
+            data.errors.forEach((error) => {
+              addToast(`Insert new book failed: ${error}`, "toast-error");
+              console.error("Insert new book error: ", error);
+            });
+            return;
+          }
+          addToast("Insert new book error", "toast-error");
+          console.error("Insert new book error: ", data.errors);
+        } else {
+          const trigger = reloadTrigger + 1;
+          setReloadTrigger(trigger);
+          addToast("New book added successfully 👍", "toast-success");
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        addToast("An error occurred inserting new book", "toast-error");
+      });
+
     setIsInserting(false);
-    const newId = books.length + 1;
-    newBook.id = newId;
-    books.push(newBook);
   };
 
   const handleCancel = () => {

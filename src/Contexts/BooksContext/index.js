@@ -5,6 +5,8 @@ const BooksContext = createContext({
   setBooks: () => {},
   loading: true,
   setLoading: () => {},
+  reloadTrigger: 0,
+  setReloadTrigger: () => {},
 });
 
 export default BooksContext;

@@ -5,6 +5,7 @@ import BooksContext from "../BooksContext";
 const BooksProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reloadTrigger, setReloadTrigger] = useState(0);
 
   useEffect(() => {
     const fetchBooks = () => {
@@ -31,10 +32,12 @@ const BooksProvider = ({ children }) => {
     };
 
     fetchBooks();
-  }, []);
+  }, [reloadTrigger]);
 
   return (
-    <BooksContext.Provider value={{ books, loading }}>
+    <BooksContext.Provider
+      value={{ books, loading, reloadTrigger, setReloadTrigger }}
+    >
       {children}
     </BooksContext.Provider>
   );
