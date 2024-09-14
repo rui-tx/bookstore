@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
@@ -17,6 +17,8 @@ import ToastContext from "../../Contexts/ToastContext";
 const Books = () => {
   //const { mockBooks } = useContext(MockBooksContext);
   const [isInserting, setIsInserting] = useState(false);
+  const [searchList, setSearchList] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
     useContext(AuthContext);
   const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
@@ -91,10 +93,58 @@ const Books = () => {
     setIsInserting(false);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.length === 0) {
+      setSearchList([]);
+      return;
+    }
+    setSearchList(
+      books.filter((b) =>
+        b.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    console.log("Search term:", searchTerm);
+  };
+
+  const handleInputChange = (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+
+    if (newSearchTerm.length === 0) {
+      setSearchList([]);
+    } else {
+      let results = [];
+
+      // search by id first
+      results = books.filter((b) => b.id === parseInt(newSearchTerm));
+      if (results.length > 0) {
+        setSearchList(results);
+        return;
+      }
+      // search by title
+      results = books.filter((b) =>
+        b.title.toLowerCase().includes(newSearchTerm.toLowerCase())
+      );
+      if (results.length > 0) {
+        setSearchList(results);
+        return;
+      }
+
+      // search by year
+      results = books.filter((b) => b.year === parseInt(newSearchTerm));
+      if (results.length > 0) {
+        setSearchList(results);
+        return;
+      }
+    }
+  };
+
   if (isInserting) {
     return <BooksInsert onInsert={handleInsert} onCancel={handleCancel} />;
   }
 
+  //<Button onClick={handleSearch}>Search</Button>
   return (
     <div>
       <Block blk="block-embossed">
@@ -109,13 +159,52 @@ const Books = () => {
               type="text"
               id="bookSearch"
               name="bookSearch"
-              placeholder="Search books..."
+              placeholder="Book title..."
+              value={searchTerm}
+              onChange={handleInputChange}
             />
-            <Button onclick="searchBooks()">Search</Button>
+            {searchTerm.length > 0 && (
+              <Button
+                btn="success"
+                onClick={() => {
+                  setSearchTerm("");
+                  setSearchList([]);
+                }}
+              >
+                Clear Search
+              </Button>
+            )}
           </div>
+          {searchList.length > 0 ? (
+            <div className="group">
+              <span>Results: {searchList.length} </span>
+            </div>
+          ) : (
+            searchTerm.length > 0 && (
+              <div className="group">
+                <span>No results found.</span>
+              </div>
+            )
+          )}
         </div>
       </Block>
-      <BookList books={books} columns={3} />
+
+      {searchTerm.length > 0 ? (
+        searchList.length > 0 ? (
+          <Block blk="block-embossed">
+            <h2>Search results</h2>
+            <BookList books={searchList} columns={3} />
+          </Block>
+        ) : (
+          <div>
+            <Block blk="block-embossed-center">
+              <span>No results found.</span>
+            </Block>
+          </div>
+        )
+      ) : (
+        <BookList books={books} columns={3} />
+      )}
     </div>
   );
 };
