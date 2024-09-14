@@ -7,6 +7,7 @@ import "./styles.css";
 const UserEdit = ({ user, onSave, onCancel }) => {
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
+  const [profilePicture, setProfilePicture] = useState(user.profile_picture);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +15,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
       ...user,
       name,
       email,
+      profile_picture: profilePicture,
     };
     onSave(updatedUser);
   };
@@ -43,6 +45,18 @@ const UserEdit = ({ user, onSave, onCancel }) => {
               required
             />
           </div>
+
+          <div className="form-group">
+            <label htmlFor="email">Profile Picture URL</label>
+            <Input
+              type="text"
+              id="profile_picture"
+              value={profilePicture}
+              onChange={(e) => setProfilePicture(e.target.value)}
+              required
+            />
+          </div>
+
           <div className="button-group">
             <Button btn="success" type="submit">
               Save Changes

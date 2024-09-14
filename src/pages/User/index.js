@@ -34,8 +34,7 @@ const User = () => {
     const raw = JSON.stringify({
       email: updatedUser.email,
       name: updatedUser.name,
-      profile_picture:
-        "https://i1.rgstatic.net/ii/profile.image/272341594800128-1441942704107_Q512/Christophe-Soares.jpg",
+      profile_picture: updatedUser.profile_picture,
     });
 
     const requestOptions = {

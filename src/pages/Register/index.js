@@ -77,6 +77,7 @@ function Register() {
             name: data.data.name,
             email: data.data.email,
             profile_picture: data.data.profile_picture,
+            token: data.data.token,
           });
 
           localStorage.setItem("isLoggedIn", true);
