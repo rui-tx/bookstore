@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, redirect } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
 import Modal from "../../Layout/Modal";
@@ -88,6 +88,53 @@ const BookDescription = () => {
     );
   }
 
+  const handleDelete = async () => {
+    if (!(await validateToken(user.token))) {
+      addToast("Session expired, please login again", "toast-error");
+      setLoggedIn(false);
+      setUser(null);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("isLoggedIn");
+      navigate("/login", { replace: true });
+      return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", user.token);
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(`/api/v1/book/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          if (Array.isArray(data.errors)) {
+            data.errors.forEach((error) => {
+              addToast(`Deleting the book failed: ${error}`, "toast-error");
+              console.error("Deleting the book error: ", error);
+            });
+            return;
+          }
+          addToast("Deleting the book failed", "toast-error");
+          console.error("Deleting the book error: ", data.errors);
+        } else {
+          const trigger = reloadTrigger + 1;
+          setReloadTrigger(trigger);
+          navigate("/books", { replace: true });
+          addToast("Book deleted successfully 👍", "toast-success");
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        addToast("An error occurred deleting the book", "toast-error");
+      });
+  };
+
   const handleCancel = () => {
     setIsUpdating(false);
   };
@@ -169,7 +216,9 @@ const BookDescription = () => {
       {isLoggedIn && user.id === book.user.id && (
         <Block blk="block-embossed">
           <Button onClick={() => setIsUpdating(true)}> Update Book </Button>
-          <Button btn="cancel"> Delete Book </Button>
+          <Button btn="cancel" onClick={handleDelete}>
+            Delete Book
+          </Button>
         </Block>
       )}
       <div className="product-page">
