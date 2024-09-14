@@ -1,0 +1,56 @@
+.book {
+  border: 0px solid var(--default-book-border-color);
+  border-radius: 0.1rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 22rem;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  width: 14rem;
+}
+
+.book-content {
+  padding: 0rem;
+}
+
+.book-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 200px;
+  transition: all 0.25s ease-in;
+  width: 100%;
+}
+
+/*   background-image: url("https://placehold.co/400x600"); 
+background-image: url("http://bookcoverarchive.com/wp-content/uploads/amazon/1984.jpg");
+https://placehold.co/600x400?text=Hello+World 
+*/
+
+.book h3 {
+  color: var(--accent);
+  font-size: 1rem;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book p {
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-image:hover {
+  cursor: pointer;
+  height: 100%;
+  transition: all 0.25s ease-out;
+}
+
+.book-link {
+  color: var(--default-book-font-color);
+  text-decoration: none;
+}

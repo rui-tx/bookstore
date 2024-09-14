@@ -1,0 +1,47 @@
+.button {
+  border: none;
+  border-radius: var(--default-button-border-radius);
+  box-shadow: 1px 5px 10px var(--accent-shadow);
+  box-sizing: border-box;
+  color: var(--default-button-font-color);
+  cursor: pointer;
+  font-size: var(--default-font-size);
+  padding: 0.5rem 0.5rem;
+  transition: background-color 0.25s ease;
+}
+
+.button.default {
+  background-color: var(--default-button-bg-color);
+}
+
+.button.success {
+  background-color: var(--success);
+}
+
+.button.cancel {
+  background-color: var(--cancel);
+}
+
+.button:active {
+  background-color: var(--accent);
+  color: var(--default-button-font-color);
+}
+
+.button:hover {
+  background-color: var(--accent);
+  transition: background-color 0.25s ease;
+}
+
+.button.book {
+  background-color: var(--default-book-bg-color);
+  color: var(--default-book-font-color);
+}
+
+.button.book:hover {
+  border: 2px solid var(--success);
+}
+
+.button-link {
+  color: var(--default-button-font-color);
+  text-decoration: none;
+}

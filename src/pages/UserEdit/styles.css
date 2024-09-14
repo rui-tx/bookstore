@@ -1,0 +1,48 @@
+.user-edit {
+  margin: 0 auto;
+  max-width: 50%;
+}
+
+.user-edit h2 {
+  color: var(--accent);
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.form-group input {
+  font-size: 16px;
+  padding: 1rem;
+  width: 100%;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+@media (max-width: 575px) {
+  .user-edit {
+    max-width: 70%;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .user-edit {
+    max-width: 80%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .user-edit {
+    max-width: 90%;
+  }
+}

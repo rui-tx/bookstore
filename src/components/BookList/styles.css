@@ -1,0 +1,18 @@
+.book-list {
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.book-list.two-columns {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.book-list.three-columns {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

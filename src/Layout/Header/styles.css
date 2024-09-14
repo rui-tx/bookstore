@@ -1,0 +1,48 @@
+.topbar {
+  align-items: center;
+  background-color: var(--default-navbar-bg-color);
+  border: 1px solid var(--default-navbar-border-color);
+  border-radius: var(--default-navbar-border-radius);
+  color: var(--default-navbar-font-color);
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  z-index: 9999;
+}
+
+.sticky {
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.no-link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-links a {
+  border: 1px solid var(--default-navbar-button-border-color);
+  border-radius: var(--default-navbar-border-radius);
+  color: var(--accent);
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+
+.nav-links a:hover {
+  background-color: var(--accent);
+  color: var(--background);
+}
