@@ -11,7 +11,7 @@
   min-width: 10rem;
   padding: 1rem 1rem;
   position: absolute;
-  z-index: 9999;
+  z-index: 10000;
 }
 
 .toast-close {
