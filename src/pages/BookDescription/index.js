@@ -83,10 +83,22 @@ const BookDescription = () => {
           </div>
           <div className="product-info">
             <h1 className="book-title">{book.title}</h1>
-            <p className="book-author">by {book.author}</p>
-            <p className="book-rating">⭐⭐⭐⭐☆ (134 reviews)</p>
-            <p className="book-price">$19.99</p>
+            {book.author && <p className="book-author">by {book.author}</p>}
+            {book.year && (
+              <p className="book-year">
+                <strong>{book.year} </strong>
+              </p>
+            )}
+            {book.rating && <p className="book-rating">{book.rating} stars</p>}
+            {book.price && (
+              <p className="book-price">
+                <strong>${book.price}</strong>
+              </p>
+            )}
             <p className="book-description">{book.description}</p>
+            <p className="book-description">
+              Book inserted by <strong>{book.user.name}</strong>
+            </p>
             <div className="action-buttons">
               <button className="add-to-cart">Add to Cart</button>
               <button className="buy-now">Buy Now</button>
