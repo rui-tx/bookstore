@@ -62,7 +62,7 @@ const Book = ({ id, title, author, year, coverUrl }) => {
           alt={`Book Cover for '${title}'`}
         ></div>
         <div className="book-content book-link">
-          <Link className="book-link" to={`/book/${id}`}>
+          <Link className="book-link" to={`/books/${id}`}>
             <h3>{title}</h3>
             <p>{author}</p>
             <p>{year}</p>

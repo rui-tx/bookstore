@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import Select from "../../components/Select";
 import BookList from "../../components/BookList";
 import BooksInsert from "../BooksInsert";
 
@@ -19,6 +20,7 @@ const Books = () => {
   const [isInserting, setIsInserting] = useState(false);
   const [searchList, setSearchList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
     useContext(AuthContext);
   const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
@@ -30,6 +32,10 @@ const Books = () => {
     const trigger = reloadTrigger + 1;
     setReloadTrigger(trigger);
   }, []);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   const handleInsert = async (newBook) => {
     console.log("Inserting new book:", newBook);
@@ -140,71 +146,169 @@ const Books = () => {
     }
   };
 
+  const handleSort = (e) => {
+    const newBooks = books.sort((a, b) => {
+      if (e.target.value === "yearSort") {
+        return a.year - b.year;
+      }
+      if (e.target.value === "titleSort") {
+        return a.title.localeCompare(b.title);
+      }
+    });
+
+    setSearchList(newBooks);
+
+    console.log("Sorting by:", e.target.value);
+    addToast("Sorting by: " + e.target.value, "toast-success");
+  };
+
+  const handleOrder = (e) => {
+    const newBooks = books.sort((a, b) => {
+      if (e.target.value === "Ascending") {
+        return a.year - b.year;
+      }
+      if (e.target.value === "Descending") {
+        return b.year - a.year;
+      }
+    });
+
+    setSearchList(newBooks);
+
+    console.log("Ordering by:", e.target.value);
+    addToast("Ordering by: " + e.target.value, "toast-success");
+  };
+
+  const handleFilterByYear = (e) => {
+    const newBooks = books.filter((b) => b.year === parseInt(e.target.value));
+
+    setSearchList(newBooks);
+
+    //console.log("Filter by year:", newBooks);
+    addToast("Filter by year: " + e.target.value, "toast-success");
+  };
+
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setSearchList([]);
+    addToast("Cleared filters", "toast-success");
+  };
+
   if (isInserting) {
     return <BooksInsert onInsert={handleInsert} onCancel={handleCancel} />;
   }
 
   //<Button onClick={handleSearch}>Search</Button>
   return (
-    <div>
-      <Block blk="block-embossed">
-        <div className="group">
-          {isLoggedIn && (
-            <Button onClick={() => setIsInserting(true)}>
-              Insert New Book
+    <div className={`books-container ${sidebarOpen ? "sidebar-open" : ""}`}>
+      {sidebarOpen && (
+        <Block blk="block-embossed">
+          <div className="sidebar">
+            <h3>Filters</h3>
+            <Button btn="cancel" onClick={handleClearFilters}>
+              Clear Filters
             </Button>
-          )}
+            <div className="filter-group">
+              <label htmlFor="yearFilter">Filter by Year</label>
+              <Input
+                type="number"
+                id="yearFilter"
+                name="yearFilter"
+                placeholder="Filter by year..."
+                onChange={handleFilterByYear}
+              />
+            </div>
+
+            <div className="filter-group">
+              <span>Sort by</span>
+              <Select name="sortList" id="sortList" onChange={handleSort}>
+                <option value="yearSort">Year</option>
+                <option value="titleSort">Title</option>
+              </Select>
+            </div>
+
+            <div className="filter-group">
+              <span>Order by</span>
+              <Select name="orderList" id="orderList" onChange={handleOrder}>
+                <option value="Ascending">Ascending</option>
+                <option value="Descending">Descending</option>
+              </Select>
+            </div>
+          </div>
+        </Block>
+      )}
+
+      <div className="main-content">
+        <Block blk="block-embossed">
+          <h2>Books Listing</h2>
+
           <div className="group">
-            <Input
-              type="text"
-              id="bookSearch"
-              name="bookSearch"
-              placeholder="Book title..."
-              value={searchTerm}
-              onChange={handleInputChange}
-            />
-            {searchTerm.length > 0 && (
+            <div className="group">
               <Button
                 btn="success"
-                onClick={() => {
-                  setSearchTerm("");
-                  setSearchList([]);
-                }}
+                className="sidebar-toggle"
+                onClick={toggleSidebar}
               >
-                Clear Search
+                {sidebarOpen ? "Close" : "Show Sidebar"}
+              </Button>
+            </div>
+            {isLoggedIn && (
+              <Button onClick={() => setIsInserting(true)}>
+                Insert New Book
               </Button>
             )}
-          </div>
-          {searchList.length > 0 ? (
+            <span>Search </span>
             <div className="group">
-              <span>Results: {searchList.length} </span>
+              <Input
+                type="text"
+                id="bookSearch"
+                name="bookSearch"
+                placeholder="Book title..."
+                value={searchTerm}
+                onChange={handleInputChange}
+              />
+              {searchTerm.length > 0 && (
+                <Button
+                  btn="success"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSearchList([]);
+                  }}
+                >
+                  Clear Search
+                </Button>
+              )}
             </div>
-          ) : (
-            searchTerm.length > 0 && (
+            {searchList.length > 0 ? (
               <div className="group">
-                <span>No results found.</span>
+                <span>Results: {searchList.length} </span>
               </div>
-            )
-          )}
-        </div>
-      </Block>
-
-      {searchTerm.length > 0 ? (
-        searchList.length > 0 ? (
-          <Block blk="block-embossed">
-            <h2>Search results</h2>
-            <BookList books={searchList} columns={3} />
-          </Block>
-        ) : (
-          <div>
-            <Block blk="block-embossed-center">
-              <span>No results found.</span>
-            </Block>
+            ) : (
+              searchTerm.length > 0 && (
+                <div className="group">
+                  <span>No results found.</span>
+                </div>
+              )
+            )}
           </div>
-        )
-      ) : (
-        <BookList books={books} columns={3} />
-      )}
+        </Block>
+
+        {searchTerm.length > 0 ? (
+          searchList.length > 0 ? (
+            <Block blk="block-embossed">
+              <h2>Search results</h2>
+              <BookList books={searchList} columns={3} />
+            </Block>
+          ) : (
+            <div>
+              <Block blk="block-embossed-center">
+                <span>No results found.</span>
+              </Block>
+            </div>
+          )
+        ) : (
+          <BookList books={books} columns={3} />
+        )}
+      </div>
     </div>
   );
 };

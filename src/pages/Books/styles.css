@@ -1,3 +1,49 @@
+.books-container {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar {
+  width: 15rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-open .sidebar {
+  transform: translateX(0);
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  margin-left: 0;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.sidebar-open .main-content {
+  margin-left: 0.5rem;
+}
+
+.sidebar-open .sidebar-toggle {
+  left: 0.5rem;
+}
+
+.sidebar h3 {
+  margin-bottom: 1px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-bottom: 1px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 1px;
+}
+
 .group {
   align-items: center;
   display: flex;
