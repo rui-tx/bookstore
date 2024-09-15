@@ -64,7 +64,7 @@ const BookDescription = () => {
   }
 
   const modalImage = (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <img
         height="300"
         src={book.book_cover}
@@ -213,14 +213,6 @@ const BookDescription = () => {
 
   return (
     <Block>
-      {isLoggedIn && user.id === book.user.id && (
-        <Block blk="block-embossed">
-          <Button onClick={() => setIsUpdating(true)}> Update Book </Button>
-          <Button btn="cancel" onClick={handleDelete}>
-            Delete Book
-          </Button>
-        </Block>
-      )}
       <div className="product-page">
         <div className="product-container">
           <div className="product-image" onClick={() => handleImageModal()}>
@@ -228,26 +220,23 @@ const BookDescription = () => {
           </div>
           <div className="product-info">
             <h1 className="book-title">{book.title}</h1>
-            {book.author && <p className="book-author">by {book.author}</p>}
             {book.year && (
               <p className="book-year">
                 <strong>{book.year} </strong>
-              </p>
-            )}
-            {book.rating && <p className="book-rating">{book.rating} stars</p>}
-            {book.price && (
-              <p className="book-price">
-                <strong>${book.price}</strong>
               </p>
             )}
             <p className="book-description">{book.description}</p>
             <p className="book-description">
               Book inserted by <strong>{book.user.name}</strong>
             </p>
-            <div className="action-buttons">
-              <button className="add-to-cart">Add to Cart</button>
-              <button className="buy-now">Buy Now</button>
-            </div>
+            {isLoggedIn && user.id === book.user.id && (
+              <div className="action-buttons">
+                <Button onClick={() => setIsUpdating(true)}>Update Book</Button>
+                <Button btn="cancel" onClick={handleDelete}>
+                  Delete Book
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

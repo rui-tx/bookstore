@@ -21,16 +21,17 @@ const Book = ({ id, title, author, year, coverUrl }) => {
   );
 
   const modalImage = (
-    <div>
+    <div style={{ textAlign: "center" }}>
       <img height="300" src={coverUrl} alt={`Book Cover for '${title}'`} />
-      <p>Author: {author}</p>
-      <p>Year: {year}</p>
+      <p>
+        <strong>Year:</strong> {year}
+      </p>
     </div>
   );
 
   const contextButton = (
     <Button btn="success">
-      <Link className="button-link" to={`/book/${id}`}>
+      <Link className="button-link" to={`/books/${id}`}>
         Book Page
       </Link>
     </Button>

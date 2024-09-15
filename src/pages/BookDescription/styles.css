@@ -1,94 +1,65 @@
-.product-page {
-  width: 100%;
+.action-buttons {
   display: flex;
-  justify-content: center;
+  gap: 0.1rem;
 }
 
-.product-container {
-  display: flex;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  background-color: #fff;
-}
-
-.product-image img {
-  cursor: pointer;
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
-}
-
-.product-info {
-  margin-left: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.book-description {
+  font-size: var(--default-font-size);
+  line-height: 1.5rem;
 }
 
 .book-title {
-  font-size: 24px;
   font-weight: bold;
   margin: 0;
 }
 
-.book-author {
-  font-size: 18px;
-  color: #555;
-  margin: 10px 0;
-}
+.product-container {
+  background-color: var(--default-block-bg-color);
+  border: 1px solid var(--default-block-border-color);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--default-block-border-radius);
 
-.book-rating {
-  font-size: 16px;
-  color: #f0c14b;
-  visibility: hidden;
-}
-
-.book-price {
-  font-size: 22px;
-  color: #b12704;
-  margin: 15px 0;
-  visibility: hidden;
-}
-
-.book-description {
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 15px 0;
-}
-
-.action-buttons {
   display: flex;
-  gap: 10px;
-  visibility: hidden;
+  padding: 1rem;
+  width: 100%;
 }
 
-.action-buttons button {
-  background-color: #f0c14b;
-  border: 1px solid #a88734;
-  padding: 10px 20px;
-  font-size: 16px;
+.product-image img {
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  height: 300px;
+  object-fit: cover;
+  width: 200px;
 }
 
-.action-buttons button:hover {
-  background-color: #ddb347;
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 1rem;
 }
 
-.add-to-cart {
-  background-color: #f0c14b;
-  border-color: #a88734;
+.product-page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-.buy-now {
-  background-color: #ff9900;
-  border-color: #e68900;
-}
+@media (max-width: 576px) {
+  .product-container {
+    flex-direction: column;
+  }
 
-.buy-now:hover {
-  background-color: #e67e22;
+  .product-image {
+    margin-bottom: 1rem;
+  }
+
+  .product-image img {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .product-info {
+    margin-left: 0;
+  }
 }
