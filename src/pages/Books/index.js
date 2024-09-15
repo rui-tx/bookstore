@@ -202,11 +202,19 @@ const Books = () => {
     <div className={`books-container ${sidebarOpen ? "sidebar-open" : ""}`}>
       {sidebarOpen && (
         <Block blk="block-embossed">
+          <Button
+            btn="success"
+            className="sidebar-toggle"
+            onClick={toggleSidebar}
+          >
+            {sidebarOpen ? "Close Sidebar" : "Show Sidebar"}
+          </Button>
           <div className="sidebar">
             <h3>Filters</h3>
             <Button btn="cancel" onClick={handleClearFilters}>
               Clear Filters
             </Button>
+
             <div className="filter-group">
               <label htmlFor="yearFilter">Filter by Year</label>
               <Input
@@ -240,29 +248,28 @@ const Books = () => {
       <div className="main-content">
         <Block blk="block-embossed">
           <h2>Books Listing</h2>
-
+          {!sidebarOpen && (
+            <Button
+              btn="success"
+              className="sidebar-toggle"
+              onClick={toggleSidebar}
+            >
+              {sidebarOpen ? "Close" : "Show Sidebar"}
+            </Button>
+          )}
           <div className="group">
-            <div className="group">
-              <Button
-                btn="success"
-                className="sidebar-toggle"
-                onClick={toggleSidebar}
-              >
-                {sidebarOpen ? "Close" : "Show Sidebar"}
-              </Button>
-            </div>
+            <div className="group"></div>
             {isLoggedIn && (
               <Button onClick={() => setIsInserting(true)}>
                 Insert New Book
               </Button>
             )}
-            <span>Search </span>
             <div className="group">
               <Input
                 type="text"
                 id="bookSearch"
                 name="bookSearch"
-                placeholder="Book title..."
+                placeholder="Search Book..."
                 value={searchTerm}
                 onChange={handleInputChange}
               />

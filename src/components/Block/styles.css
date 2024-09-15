@@ -2,6 +2,11 @@
   display: block;
 }
 
+.block-center {
+  display: flex;
+  justify-content: center;
+}
+
 .block-embossed {
   background-color: var(--default-block-bg-color);
   border: 1px solid var(--default-block-border-color);
