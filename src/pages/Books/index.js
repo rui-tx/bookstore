@@ -207,7 +207,7 @@ const Books = () => {
             className="sidebar-toggle"
             onClick={toggleSidebar}
           >
-            {sidebarOpen ? "Close Sidebar" : "Show Sidebar"}
+            {sidebarOpen ? "Close Filters" : "Filter Books"}
           </Button>
           <div className="sidebar">
             <h3>Filters</h3>
@@ -254,7 +254,7 @@ const Books = () => {
               className="sidebar-toggle"
               onClick={toggleSidebar}
             >
-              {sidebarOpen ? "Close" : "Show Sidebar"}
+              {sidebarOpen ? "Close Filters" : "Filter Books"}
             </Button>
           )}
           <div className="group">
