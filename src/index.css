@@ -21,12 +21,15 @@
   /* Button */
   --default-button-font-color: #ffffff;
   --default-button-bg-color: #000099;
+  --default-button-bg-disabled-color: #4a4a4a;
+
   --default-button-bg-color-hover: #000080;
   --default-button-border-radius: 0.5rem;
 
   /* Input */
   --default-input-font-color: #4a4a4a;
   --default-input-bg-color: #ffffff;
+  --default-input-bg-disabled-color: #4a4a4a25;
   --default-input-border-color: #4a4a4a;
   --default-input-focus-color: #00008065; /* with transparency */
   --default-input-border-radius: 0.5rem;

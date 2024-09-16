@@ -5,11 +5,30 @@ import Input from "../../components/Input";
 import Textarea from "../../components/Textarea";
 import "./styles.css";
 
+import OpenAIService from "../../services/OpenAIService";
+
 const BooksInsert = ({ onInsert, onCancel }) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [year, setYear] = useState(null);
   const [bookCover, setBookCover] = useState(null);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+
+  const callOpenAI = async (e) => {
+    e.preventDefault();
+    setIsGeneratingAI(true);
+    const response = await OpenAIService(
+      "I need the description of this book: " +
+        title +
+        " - " +
+        year +
+        ". Make it fun and interesting but the more accurate the better. No spoilers."
+    );
+    setDescription(response.choices[0].message.content);
+    setIsGeneratingAI(false);
+
+    //console.log(response);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +40,14 @@ const BooksInsert = ({ onInsert, onCancel }) => {
     };
     onInsert(newBook);
   };
+
+  //   <Button
+  //   btn={!isGeneratingAI ? "fancy" : "disabled"}
+  //   onClick={callOpenAI}
+  //   disabled={true}
+  // >
+  //   - Fill with AI -
+  // </Button>
 
   return (
     <Block blk="block-embossed">
@@ -40,6 +67,7 @@ const BooksInsert = ({ onInsert, onCancel }) => {
             </div>
             <div className="book-insert-form-group">
               <label htmlFor="author">Description</label>
+
               <Textarea
                 type="text"
                 id="description"
