@@ -2,6 +2,7 @@ import { useState } from "react";
 import Block from "../../components/Block";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import Textarea from "../../components/Textarea";
 import "./styles.css";
 
 const BooksUpdate = ({ book, onUpdate, onCancel }) => {
@@ -40,14 +41,13 @@ const BooksUpdate = ({ book, onUpdate, onCancel }) => {
               />
             </div>
             <div className="book-update-form-group">
-              <label htmlFor="author">Description</label>
-              <Input
-                type="text"
+              <label htmlFor="description">Description</label>
+              <Textarea
                 id="description"
                 value={description}
                 placeholder="Description of the book..."
                 onChange={(e) => setDescription(e.target.value)}
-                required
+                rows="20"
               />
             </div>
             <div className="book-update-form-group">
