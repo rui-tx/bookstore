@@ -18,6 +18,19 @@
   width: 100%;
 }
 
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-picture {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -57,6 +70,7 @@
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -74,6 +88,10 @@
 .nav-links a.active {
   background-color: var(--accent);
   color: var(--background);
+}
+
+.no-border.no-border {
+  border: none;
 }
 
 .nav-links.open {

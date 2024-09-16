@@ -68,15 +68,7 @@ function Header() {
           >
             Books
           </Link>
-          {isLoggedIn && (
-            <Link
-              to="/profile"
-              onClick={closeMenu}
-              className={isActive("/profile") ? "active" : ""}
-            >
-              User Profile
-            </Link>
-          )}
+
           {isLoggedIn ? (
             <Link
               to="/logout"
@@ -92,6 +84,24 @@ function Header() {
               className={isActive("/login") ? "active" : ""}
             >
               Login
+            </Link>
+          )}
+          {isLoggedIn && (
+            <Link
+              to="/profile"
+              onClick={closeMenu}
+              className={`no-border profile-link ${
+                isActive("/profile") ? "active" : ""
+              }`}
+            >
+              {user.profile_picture && (
+                <img
+                  src={user.profile_picture}
+                  alt="Profile"
+                  className="profile-picture"
+                />
+              )}
+              {user.name}
             </Link>
           )}
         </nav>

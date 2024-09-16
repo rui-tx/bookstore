@@ -45,3 +45,24 @@
 .copyright {
   font-size: 0.9rem;
 }
+
+@media (max-width: 575px) {
+  .footer {
+    padding: 0.7rem;
+    margin: 0.5rem;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .footer {
+    padding: 0.9rem;
+    margin: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 0rem;
+    margin: 0rem;
+  }
+}

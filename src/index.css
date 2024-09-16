@@ -12,8 +12,8 @@
   --cancel: #f44336;
 
   /* Block */
-  --default-block-padding: 1rem;
-  --default-block-margin: 1rem;
+  --default-block-padding: 0.7rem;
+  --default-block-margin: 0.8rem;
   --default-block-bg-color: #ffffff;
   --default-block-border-color: #4a4a4a25;
   --default-block-border-radius: 0.8rem;

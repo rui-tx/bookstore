@@ -1,4 +1,5 @@
 import Block from "../../components/Block";
+import Button from "../../components/Button";
 import "./styles.css";
 
 const Footer = ({ stickyFooter = false }) => {
@@ -15,7 +16,14 @@ const Footer = ({ stickyFooter = false }) => {
           <a href="/contact">Contact</a>
           <a href="/privacy">Privacy</a>
         </nav>
-        <div className="copyright">© {new Date().getFullYear()}</div>
+        <div className="copyright">
+          <Button
+            btn="fancy"
+            onClick={() => window.open("https://github.com/rui-tx", "_blank")}
+          >
+            👋
+          </Button>
+        </div>
       </footer>
     </Block>
   );
