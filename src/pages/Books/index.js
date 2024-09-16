@@ -59,6 +59,7 @@ const Books = () => {
       title: newBook.title,
       description: newBook.description,
       year: parseInt(newBook.year),
+      book_cover: newBook.book_cover,
     });
 
     const requestOptions = {

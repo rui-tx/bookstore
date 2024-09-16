@@ -8,6 +8,7 @@ const BooksInsert = ({ onInsert, onCancel }) => {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [year, setYear] = useState(null);
+  const [bookCover, setBookCover] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +16,7 @@ const BooksInsert = ({ onInsert, onCancel }) => {
       title,
       description,
       year,
+      book_cover: bookCover,
     };
     onInsert(newBook);
   };
@@ -54,6 +56,26 @@ const BooksInsert = ({ onInsert, onCancel }) => {
                 onChange={(e) => setYear(e.target.value)}
                 required
               />
+            </div>
+            <div className="book-insert-form-group">
+              <label htmlFor="book_cover">Book Cover</label>
+              <Input
+                type="text"
+                id="book_cover"
+                value={bookCover}
+                placeholder="Url for the book cover..."
+                onChange={(e) => setBookCover(e.target.value)}
+                required
+              />
+              {bookCover && (
+                <Block blk="block-embossed-center">
+                  <img
+                    style={{ width: "50%" }}
+                    src={bookCover}
+                    alt="Book Cover"
+                  />
+                </Block>
+              )}
             </div>
             <div className="book-insert-button-group">
               <Button btn="success" type="submit">
