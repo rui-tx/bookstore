@@ -48,6 +48,17 @@ const Home = () => {
           columns={3}
         />
       </Block>
+
+      <Block blk="block-embossed">
+        <h3>Fresh classics? We got you covered!</h3>
+        <BookList
+          books={books
+            .filter((b) => b.year <= 1970)
+            .sort((a, b) => b.id - a.id)
+            .slice(0, 6)}
+          columns={3}
+        />
+      </Block>
     </div>
   );
 };
