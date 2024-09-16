@@ -17,6 +17,7 @@ const BookDescription = () => {
   const [loading, setLoading] = useState(true);
   const [isViewing, setIsViewing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { isLoggedIn, setLoggedIn, user, setUser, validateToken } =
     useContext(AuthContext);
   const { books, reloadTrigger, setReloadTrigger } = useContext(BooksContext);
@@ -63,6 +64,13 @@ const BookDescription = () => {
     );
   }
 
+  const handleDeleteConfirm = () => {
+    setIsDeleting(true);
+    setTimeout(() => {
+      setIsDeleting(false);
+    }, "5000");
+  };
+
   const modalImage = (
     <div style={{ textAlign: "center" }}>
       <img
@@ -75,6 +83,7 @@ const BookDescription = () => {
 
   const handleImageModal = () => {
     setIsViewing(!isViewing);
+    setIsDeleting(false);
   };
 
   if (isViewing) {
@@ -137,6 +146,7 @@ const BookDescription = () => {
 
   const handleCancel = () => {
     setIsUpdating(false);
+    setIsDeleting(false);
   };
 
   const handleUpdate = async (newBook) => {
@@ -232,9 +242,15 @@ const BookDescription = () => {
             {isLoggedIn && user.id === book.user.id && (
               <div className="action-buttons">
                 <Button onClick={() => setIsUpdating(true)}>Update Book</Button>
-                <Button btn="cancel" onClick={handleDelete}>
-                  Delete Book
-                </Button>
+                {isDeleting ? (
+                  <Button btn="fancy" onClick={handleDelete}>
+                    - You Sure? -
+                  </Button>
+                ) : (
+                  <Button btn="cancel" onClick={handleDeleteConfirm}>
+                    Delete Book
+                  </Button>
+                )}
               </div>
             )}
           </div>

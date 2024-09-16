@@ -26,7 +26,7 @@ const BooksUpdate = ({ book, onUpdate, onCancel }) => {
         book.year +
         ". Make it fun and interesting but the more accurate the better. No spoilers."
     );
-    if (response.includes("AI_SERVICE_DOWN")) {
+    if (response === "AI_SERVICE_DOWN") {
       addToast("AI service is down 😔 Please try again later.", "toast-error");
       setIsGeneratingAI(false);
       console.error(response);
